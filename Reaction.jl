@@ -21,18 +21,6 @@ function filterReactionData!(rData, species)
 end
 
 
-
-struct Reaction
-    reactants::Array{AbstractString}
-    products::Array{AbstractString}
-    alpha::Float64
-    beta::Float64
-    gamma::Float64
-    tmin::Int64
-    tmax::Int64
-    rate
-end
-
 function createReactionList(reactionData, includedSpeciesNames)
     reactionList = []
 

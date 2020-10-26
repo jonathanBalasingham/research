@@ -1,3 +1,4 @@
+using ModelingToolkit
 # what is D??
 function prod(ind, species, reactions, Y)
     name = species[ind]
@@ -46,8 +47,8 @@ function loss(ind, species, reactions, Y)
     p
 end
 
-function createNetwork(IC::InitialConditions, species::Array{String}, reactionData)
-    @parameters t
+function createNetwork(IC::InitialConditions, species::Array{String}, reactionsData)
+    ModelingToolkit.@parameters t
     @variables y[1:length(species)](t)
     @derivatives D'~t
 
