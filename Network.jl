@@ -69,8 +69,8 @@ function createNetwork(IC::InitialConditions, species::Array{String}, reactionsD
         push!(eqs, ydot[i] ~ prod(i,species,reactionsData, y) + y[i]*loss(i,species,reactionsData,y))
     end
     eqs = eqs .|> simplify
+    println(eqs)
     tspan = (0.0, 1.0)
     network = ODESystem(eqs, name=:uclchem)
     ODEProblem(network, u0, tspan)
-    
 end
