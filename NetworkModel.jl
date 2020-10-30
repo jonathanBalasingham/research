@@ -32,7 +32,7 @@ function createNetworkModel(reactionsData, species_names)
 end
 
 function createU0(IC::InitialConditions, nw)
-    u0 = []
+    u0 = Float64[]
     for sym in species(nw)
         name = String(sym.name)
         if name == "C"

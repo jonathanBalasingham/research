@@ -54,24 +54,22 @@ function createNetwork(IC::InitialConditions, species::Array{String}, reactionsD
 
     ydot = D.(y)
     eqs = []
-    u0 = []
+    u0 = Float64[]
     for (i,yt) in enumerate(y)
         name = species[i]
         if name == "C"
-            push!(u0, yt => IC.C)
+            push!(u0,  IC.C)
         elseif name == "H"
-            push!(u0, yt => IC.H)
+            push!(u0,  IC.H)
         elseif name == "O"
-            push!(u0, yt => IC.O)
+            push!(u0,  IC.O)
         else
-            push!(u0, yt => 0.0)
+            push!(u0,  0.0)
         end
-        #push!(eqs, ydot[i] ~ prod(i,species,reactionsData, y) + y[i]*loss(i,species,reactionsData,y))
+        push!(eqs, ydot[i] ~ prod(i,species,reactionsData, y) + y[i]*loss(i,species,reactionsData,y))
     end
     eqs = eqs .|> simplify
-    println(eqs)
-    tspan = (0.0, 1.0)
+    tspan = (0.0, 10.0)
     network = ODESystem(eqs, name=:uclchem)
-    println(latexify(network))
     ODEProblem(network, u0, tspan)
 end
