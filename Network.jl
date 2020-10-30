@@ -66,7 +66,7 @@ function createNetwork(IC::InitialConditions, species::Array{String}, reactionsD
         else
             push!(u0, yt => 0.0)
         end
-        push!(eqs, ydot[i] ~ prod(i,species,reactionsData, y) + y[i]*loss(i,species,reactionsData,y))
+        #push!(eqs, ydot[i] ~ prod(i,species,reactionsData, y) + y[i]*loss(i,species,reactionsData,y))
     end
     eqs = eqs .|> simplify
     println(eqs)
