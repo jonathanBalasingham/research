@@ -2,6 +2,7 @@ include("./Util.jl")
 include("./Species.jl")
 include("./Reaction.jl")
 include("./Network.jl")
+include("./NetworkModel.jl")
 include("./Rates.jl")
 include("./Chemistry.jl")
 
@@ -11,13 +12,6 @@ using DifferentialEquations
 function julia_main(reactionsFilepath::String, speciesFilepath::String)
     println(reactionsFilepath)
     println(speciesFilepath)
-    try
-        reactionsData = CSV.read(reactionsFilepath)
-        speciesData = CSV.read(speciesFilepath)
-    catch e
-        println("Error occured trying to read input files")
-        println(e)
-    end
     reactionsData = CSV.read(reactionsFilepath)
     speciesData = CSV.read(speciesFilepath)
 
@@ -32,7 +26,7 @@ function julia_main(reactionsFilepath::String, speciesFilepath::String)
     calculateRates!(reactionsData, p)
     filterReactionData!(reactionsData, speciesData["name"])
     prob = createNetwork(ICs, speciesData["name"], reactionsData)
-    sol = solve(prob)
+    #sol = solve(prob)
 end
 
-julia_main(ARGS[1], ARGS[2])
+#julia_main(ARGS[1], ARGS[2])

@@ -72,5 +72,6 @@ function createNetwork(IC::InitialConditions, species::Array{String}, reactionsD
     println(eqs)
     tspan = (0.0, 1.0)
     network = ODESystem(eqs, name=:uclchem)
+    println(latexify(network))
     ODEProblem(network, u0, tspan)
 end
