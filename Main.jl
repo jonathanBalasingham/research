@@ -55,7 +55,7 @@ sfp = "input/species.csv"
 
 sa = collect(range(0.0, 10000000.0, step = 0.1))
 
-@time sol1 = solve(formulate_problem_catalyst(rfp, sfp), saveat=sa)
+@time sol1 = solve(formulate_problem_catalyst(rfp, sfp), saveat=10.)
 #@time sol2 = solve(formulate_problem_plain_ODE(rfp,sfp), saveat=sa)
 
 plot(sol1)
