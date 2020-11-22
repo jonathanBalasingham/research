@@ -14,7 +14,7 @@ function formulate_problem_plain_ODE(reactionsFilepath::String, speciesFilepath:
     speciesData = CSV.read(speciesFilepath)
 
     # These will be an input eventually
-    ICs = InitialConditions(1.0,2.6e-4,4.6e-4)
+    ICs = InitialConditions(1.0,2.6e-4,4.6e-4, 0)
     T=10 
     zeta = 1.3e-17
     F_UV=1
@@ -31,7 +31,7 @@ function formulate_problem_catalyst(rfp::String, sfp::String)
     reactionsData = CSV.read(rfp)
     speciesData = CSV.read(sfp)
 
-    ICs = InitialConditions(1.0,2.6e-4,4.6e-4)
+    ICs = InitialConditions(1.0,2.6e-4,4.6e-4,0)
     T=10 
     zeta = 1.3e-17
     F_UV=1
@@ -42,7 +42,7 @@ function formulate_problem_catalyst(rfp::String, sfp::String)
     filterReactionData!(reactionsData, speciesData["name"])
     network = createNetworkModel(reactionsData, speciesData["name"])
     u0 = createU0(ICs, network)
-    tspan = (0.0, 10000000.0)
+    tspan = (0.0, 10000.0)
     system = convert(ODESystem, network)
     ODEProblem(system, u0, tspan)
 end
@@ -53,9 +53,16 @@ end
 rfp = "input/reactions.csv"
 sfp = "input/species.csv"
 
-sa = collect(range(0.0, 10000000.0, step = 0.1))
+sa = collect(range(0.0, 10000.0, step = 0.1))
 
 @time sol1 = solve(formulate_problem_catalyst(rfp, sfp), saveat=10.)
 #@time sol2 = solve(formulate_problem_plain_ODE(rfp,sfp), saveat=sa)
+using NeuralPDE
+chain = Flux.Chain(Dense(1, 5, σ), Dense(5, 1))
+opt = Flux.ADAM(0.1, (0.9, 0.95))
+@time sol2 = solve(formulate_problem_catalyst(rfp,sfp),
+                    NeuralPDE.NNRODE(chain, opt), dt=1 / 20f0, verbose=true,
+            abstol=1e-10, maxiters=200)
 
 plot(sol1)
+plot(sol2)

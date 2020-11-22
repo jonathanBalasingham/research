@@ -41,6 +41,8 @@ function createU0(IC::InitialConditions, nw)
             push!(u0, IC.H)
         elseif name == "O"
             push!(u0, IC.O)
+        elseif name == "N"
+            push!(u0, IC.N)
         else
             push!(u0, 0.0)
         end
