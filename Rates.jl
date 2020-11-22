@@ -16,7 +16,7 @@ struct Parameters
 end
 
 function calculateRates!(rdata, parameters)
-    rdata["rate"] = 0.0
+    rdata[!, "rate"] .= 0.0
     for row in eachrow(rdata)
         if row.re2 == "CRP"
             row.rate = R_CRProton(row.alpha,parameters.zeta)
