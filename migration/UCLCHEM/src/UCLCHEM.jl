@@ -1,4 +1,5 @@
 module UCLCHEM
-include("InitialConditions.jl")
-
+include("NNSolve.jl")
+include("Formulate.jl")
+include("Visualize.jl")
 end # module
