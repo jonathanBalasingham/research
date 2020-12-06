@@ -1,13 +1,13 @@
 
-R_AB(alpha, beta, gamma, K, T) = alpha*(T/(300*K))^beta*exp(-gamma/T)
+R_AB(alpha, beta, gamma, T) = alpha*(T/(300))^beta*exp(-gamma/T)
 R_CRProton(alpha, zeta) = alpha*zeta
-R_CRPhoton(alpha, beta, zeta, omega, T, K, E) = alpha*(T/(300*K)^beta *((E*zeta)/(1-omega)))
-R_UV(alpha, F_UV, k, A_v) = alpha*F_UV*exp(-k*A_v)
+R_CRPhoton(alpha, beta, zeta, omega, T, E) = alpha*(T/(300)^beta *((E*zeta)/(1-omega)))
+# changed because k is constant; k -> gamma
+R_UV(alpha, F_UV, gamma, A_v) = alpha*F_UV*exp(-gamma*A_v)
 
 struct Parameters
     zeta::Float64
     omega::Float64
-    K::Float64
     T::Float64
     F_UV::Float64
     A_v::Float64
@@ -22,11 +22,11 @@ function calculateRates!(rdata, parameters)
             row.rate = R_CRProton(row.alpha,parameters.zeta)
         elseif row.re2 == "CRPHOT"
             # E parameter is missing!!
-            row.rate = R_CRPhoton(row.alpha, row.beta, parameters.zeta, parameters.omega, parameters.T,parameters.K,0.5)
+            row.rate = R_CRPhoton(row.alpha, row.beta, parameters.zeta, parameters.omega, parameters.T,0.5)
         elseif row.re2 == "PHOTON"
-            row.rate = R_UV(row.alpha, parameters.F_UV, parameters.k, parameters.A_v)
+            row.rate = R_UV(row.alpha, parameters.F_UV, row.gamma, parameters.A_v)
         else
-            row.rate = R_AB(row.alpha,row.beta,row.gamma,parameters.K,parameters.T)
+            row.rate = R_AB(row.alpha,row.beta,row.gamma,parameters.T)
         end
     end
 end

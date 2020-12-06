@@ -7,7 +7,6 @@ include("./Rates.jl")
 using CSV, DifferentialEquations, Plots, Catalyst, DataFrames, SymbolicUtils
 
 
-
 function formulate_problem_plain_ODE(reactionsFilepath::String, speciesFilepath::String)
     reactionsData = CSV.read(reactionsFilepath, DataFrame)
     speciesData = CSV.read(speciesFilepath, DataFrame)
