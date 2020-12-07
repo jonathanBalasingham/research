@@ -1,10 +1,10 @@
+using CSV 
+using DataFrames
+
 include("InitialNetworkConditions.jl")
 include("ChemicalNetwork.jl")
 include("Reaction.jl")
 
-
-using CSV 
-using DataFrames
 
 function formulate(speciesFilepath::String, reactionsFilepath::String, icFilepath::String, p::Parameters, tspan::Tuple{Float64,Float64}, scale_factor=3600*24*356)
     reactionsData = CSV.read(reactionsFilepath, DataFrame)
