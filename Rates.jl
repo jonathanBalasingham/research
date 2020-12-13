@@ -11,7 +11,6 @@ struct Parameters
     T::Float64
     F_UV::Float64
     A_v::Float64
-    k::Float64
     E::Float64
 end
 

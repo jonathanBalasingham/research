@@ -5,4 +5,5 @@ omega = 0.5
 F_UV=1.
 A_v=2.
 E = 0.5
-p = Parameters(zeta, omega, T, F_UV, A_v, E)
+density = 1e4
+p = Parameters(zeta, omega, T, F_UV, A_v, E, density)

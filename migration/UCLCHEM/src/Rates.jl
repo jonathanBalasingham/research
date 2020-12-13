@@ -1,3 +1,4 @@
+
 R_AB(alpha, beta, gamma, T) = alpha*(T/(300))^beta*exp(-gamma/T)
 R_CRProton(alpha, zeta) = alpha*zeta
 R_CRPhoton(alpha, beta, zeta, omega, T, E) = alpha*(T/(300)^beta *((E*zeta)/(1-omega)))
@@ -11,6 +12,7 @@ struct Parameters
     F_UV::Float64
     A_v::Float64
     E::Float64
+    density::Float64
 end
 
 # per day
@@ -25,7 +27,7 @@ function calculateRates!(rdata, parameters)
         elseif row.re2 == "PHOTON"
             row.rate = R_UV(row.alpha, parameters.F_UV, row.gamma, parameters.A_v)
         else
-            row.rate = R_AB(row.alpha,row.beta,row.gamma,parameters.T)
+            row.rate = R_AB(row.alpha,row.beta,row.gamma,parameters.T) * p.density
         end
     end
 end

@@ -1,11 +1,14 @@
-
 include("./Util.jl")
 include("./Reaction.jl")
 include("./Network.jl")
 include("./NetworkModel.jl")
 include("./Rates.jl")
-
-using CSV, DifferentialEquations, Flux, CUDA, Optim
+include("./migration/UCLCHEM/src/NNODE.jl")
+using CSV 
+using DifferentialEquations
+using Flux
+using CUDA
+using Optim
 
 reactionsFilepath = "input/reactions_postNN.csv"
 speciesFilepath = "input/species_postNN.csv"
@@ -13,14 +16,14 @@ speciesFilepath = "input/species_postNN.csv"
 reactionsData = CSV.read(reactionsFilepath, DataFrame)
 speciesData = CSV.read(speciesFilepath, DataFrame)
 
-ICs = InitialConditions(4.0e-4,2.6e-4,4.6e-4,0)
+ICs = InitialConditions(0.0e-4,2.6e-4,4.6e-4,6.1e-05)
 T=10. 
 zeta = 1.
 omega = 0.5
 F_UV=1.
 A_v=2.
 E = 0.5
-p = Parameters(zeta, omega, T, F_UV, A_v, 0.2, E)
+p = Parameters(zeta, omega, T, F_UV, A_v, E)
 
 calculateRates!(reactionsData, p)
 filterReactionData!(reactionsData, speciesData.name)
